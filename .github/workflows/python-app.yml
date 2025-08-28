@@ -7,26 +7,31 @@ on:
 
 jobs:
   test:
+    name: Run Tests and Upload to Trunk
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run tests with pytest
-        run: pytest --junitxml=report.xml
+      - name: Run Tests
+        run: pytest --junit-xml=junit.xml -o junit_family=xunit1
 
-      - name: Upload results
-        # Run this step even if the test step ahead fails
-        if: success() || failure()
-        uses: trunk-io/analytics-uploader@main
+      - name: Upload Test Results to Trunk.io
+        if: '!cancelled()' # Upload the results even if the tests fail
+        continue-on-error: true # don't fail this job if the upload fails
+        uses: trunk-io/analytics-uploader@v1
+
         with:
           # Path to your test results.
           junit-paths: "**/*.xml"
@@ -35,4 +40,3 @@ jobs:
           org-slug: ${{ secrets.TRUNK_ORG_URL_SLUG }}
           # Provide your Trunk API token as a GitHub secret.
           token: ${{ secrets.TRUNK_API_TOKEN }}
-        continue-on-error: true
