@@ -32,7 +32,8 @@ def hello():
         if name and len(name) > 20:
             error = "Name must be less than 20 characters."
             name = None
-        else:
+        elif name:
+            name = name.title()
             favorite_number = generate_favorite_number()
     return render_template_string(
         HTML + ("<p style='color:red;'>{{ error }}</p>" if error else ""),
