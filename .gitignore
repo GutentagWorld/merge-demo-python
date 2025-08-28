@@ -1,3 +1,5 @@
+# JUnit XML output
+junit.xml
 # Python
 __pycache__/
 *.py[cod]
