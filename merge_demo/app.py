@@ -26,10 +26,20 @@ def generate_favorite_number():
 def hello():
     name = None
     favorite_number = None
+    error = None
     if request.method == "POST":
         name = request.form.get("username")
-        favorite_number = generate_favorite_number()
-    return render_template_string(HTML, name=name, favorite_number=favorite_number)
+        if name and len(name) > 20:
+            error = "Name must be less than 20 characters."
+            name = None
+        else:
+            favorite_number = generate_favorite_number()
+    return render_template_string(
+        HTML + ("<p style='color:red;'>{{ error }}</p>" if error else ""),
+        name=name,
+        favorite_number=favorite_number,
+        error=error,
+    )
 
 
 if __name__ == "__main__":
