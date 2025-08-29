@@ -6,15 +6,31 @@ app = Flask(__name__)
 HTML = """
 <!doctype html>
 <title>Hello App</title>
-<h1>Enter your name:</h1>
-<form method="post">
-  <input type="text" name="username" required>
-  <input type="submit" value="Say Hello">
-</form>
-{% if name %}
-  <h2>Hello {{ name }}!</h2>
-  <p>Your favorite number is: {{ favorite_number }}</p>
-{% endif %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .center-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<div class="center-container">
+    <h1>Enter your name:</h1>
+    <form method="post">
+        <input type="text" name="username" required>
+        <input type="submit" value="Say Hello">
+    </form>
+    {% if name %}
+        <h2>Hello {{ name }}!</h2>
+        <p>Your favorite number is: {{ favorite_number }}</p>
+    {% endif %}
+</div>
 """
 
 
