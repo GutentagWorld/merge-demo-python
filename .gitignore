@@ -1,5 +1,9 @@
 # JUnit XML output
 junit.xml
+
+#trunk
+trunk
+
 # Python
 __pycache__/
 *.py[cod]
